@@ -29,11 +29,6 @@ class Api::V1::LinksController < ApplicationController
   private
 
   def new_status(link)
-    # if link.read_status == true
-    #   false
-    # else
-    #   true
-    # end
     link.read_status == true ? false : true
   end
 end
