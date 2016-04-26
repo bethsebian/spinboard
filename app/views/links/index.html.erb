@@ -1,0 +1,9 @@
+<h1>Links links links</h1>
+
+<% @links.each do |link| %>
+  <div id="link-<%= link.id %>">
+    <%= link.url %>
+    <%= link.title %>
+    Read: <%= link.read_status %>
+  </div>
+<% end %>
