@@ -1,9 +1,24 @@
 <h1>Links links links</h1>
 
-<% @links.each do |link| %>
-  <div id="link-<%= link.id %>">
-    <%= link.url %>
-    <%= link.title %>
-    Read: <%= link.read_status %>
-  </div>
+<%= form_for @link do |f| %>
+  <% if current_user %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+  <% end %>
+  <%= f.label :url %>
+  <%= f.text_field :url %>
+
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.submit "Add Link" %>
+<% end %>
+
+<% if current_user %>
+  <% @links.each do |link| %>
+    <div id="link-<%= link.id %>">
+      <%= link.url %>
+      <%= link.title %>
+      Read: <%= link.read_status %>
+    </div>
+  <% end %>
 <% end %>

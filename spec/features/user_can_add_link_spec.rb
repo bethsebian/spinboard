@@ -4,8 +4,10 @@ RSpec.feature 'Add links', type: :feature do
   attr_reader :user_1, :user_2
 
   before(:each) do
-    @user_1 = User.create(email: "janedoe@example.com",
-                          password: "password")
+    @user_1 = User.create(name: "Jane Doe",
+                          email: "janedoe@example.com",
+                          password: "password",
+                          password_confirmation: "password")
   end
 
   scenario 'user can add link' do
@@ -23,7 +25,7 @@ RSpec.feature 'Add links', type: :feature do
     expect(current_path).to eq(links_path)
     expect(page).to have_content(url)
     expect(page).to have_content(title)
-    expect(current_path).to eq("Read: false")
+    expect(page).to have_content("Read: false")
   end
 
   scenario "user sees error if link is invalid" do
