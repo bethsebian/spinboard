@@ -13,10 +13,10 @@ RSpec.feature 'Sign up', type: :feature do
     expect(page).to have_content("Welcome to SpinBoard!")
   end
 
-  scenario 'unregistered user is directed to sign up page' do
+  scenario 'unregistered user is directed to login page' do
     visit '/'
 
-    expect(current_path).to eq('/signup')
+    expect(current_path).to eq('/login')
     expect(page).to have_content('Log In or Sign Up')
   end
 end
