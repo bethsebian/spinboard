@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+.read {
+  color: red;
+}
+
+.unread {
+  color: blue;
+}

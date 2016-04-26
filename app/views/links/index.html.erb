@@ -1,5 +1,14 @@
 <h1>Links links links</h1>
 
+<section class="filter-buttons">
+  <div class="filter-button" id="filter-by-term"></div>
+  <div class="filter-button" id="filter-by-status"></div>
+  <div class="filter-button" id="filter-alphabetically"></div>
+</section>
+
+<br>
+<br>
+
 <%= form_for @link do |f| %>
   <% if current_user %>
     <%= f.hidden_field :user_id, value: current_user.id %>
@@ -15,6 +24,5 @@
 
 <% if current_user %>
   <div id="links-list">
-
   </div>
 <% end %>

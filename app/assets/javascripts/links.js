@@ -1,23 +1,37 @@
 $(document).ready(function() {
   listAllLinks();
   changeStatus();
+  addStatusFilterLink();
+  filterByStatus();
+  showAll();
 });
 
+function addStatusFilterLink() {
+  var target = $('#filter-by-status');
+  $(target).append('<button class="filter-by-status" id="true">Show Read Links</button>'
+                   + '<button class="filter-by-status" id="false">Show Unread Links</button>'
+                   + '<button class="show-all">Show All</button>')
+}
+
 function listAllLinks() {
-  var target = $('#links-list');
   return $.getJSON('api/v1/links.json').then(function (links) {
-    collectAndFormatLinks(links, target);
+    collectAndFormatLinks(links);
   });
 }
 
-function collectAndFormatLinks(links, target) {
+function collectAndFormatLinks(links) {
+  var target = $('#links-list');
   var renderedLinks = links.map(renderLink);
-  $(target).append(renderedLinks);
+  $(target).append('<div class="links-container"></div>');
+  var target2 = $('.links-container');
+  $(target2).append(renderedLinks);
 }
 
 function renderLink(link) {
   return $(
-    '<div class="link_info" id="link_'
+    '<div class="link_info '
+    + (link.read_status === true ? 'read' : 'unread' )
+    + '" id="link_'
     + link.id
     + '" ><br>Url: '
     + link.url
@@ -31,7 +45,11 @@ function renderLink(link) {
     + link.read_status
     + '</div></div><br><br><div id="status_button_'
     + link.id
-    + '" ><button class="change-status" id=' + link.id + ' name="change-status">Change Status</button>'
+    + '" >'
+    + (link.read_status === true ? ('<button class="change-status" id=' + link.id + '>Mark as Unread</button>') : ('<button class="change-status" id=' + link.id + '>Mark as Read</button>'))
+    + '<a href="/links/'
+    + link.id
+    + '/edit">Edit</a>'
     + '</div>'
   );
 }
@@ -43,6 +61,26 @@ function changeStatus() {
     updateStatusInView(linkId);
   });
 }
+
+function filterByStatus() {
+  $("#filter-by-status").delegate('.filter-by-status', 'click', function() {
+    filterLinks(this.id);
+  });
+}
+
+function showAll() {
+  $(".filter-buttons").delegate('.show-all', 'click', function() {
+    listAllLinks();
+  });
+}
+
+function filterLinks(filterType) {
+  return $.getJSON("api/v1/links?status=" + filterType).then(function (links) {
+    $('.links-container').remove();
+    collectAndFormatLinks(links);
+  });
+}
+
 
 function updateStatusInModel(linkId) {
   $.ajax({
@@ -62,8 +100,6 @@ function updateStatusInView(linkId) {
   getUpdatedLinkInfo(linkId);
 }
 
-
-
 function getUpdatedLinkInfo(linkId) {
   $.ajax({
     type: "get",
@@ -72,13 +108,8 @@ function getUpdatedLinkInfo(linkId) {
     success: function(link) {
       console.log('Link status successfully updated in view.');    }
   }).then(function (link) {
-    var newStatus = link.read_status;
-    var statusParent = document.getElementById('status_' + linkId + '_parent');
-    var statusChild = document.getElementById('status_' + linkId + '_child');
-    statusChild.remove();
-    console.log(link.id);
-    console.log(link.read_status);
-    $(statusParent).append('<div id="status_' + link.id + '_child" >' + link.read_status+ '</div>');
-    // $('status_' + linkId + '_parent').append("hello") // '<div id="status_' + link.id + '_child" >' + link.read_status+ '</div>');
+    var linkDiv = document.getElementById('link_' + link.id);
+    linkDiv.remove();
+    $('#links-list').append(renderLink(link));
   });
 }

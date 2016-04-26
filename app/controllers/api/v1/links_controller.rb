@@ -8,7 +8,9 @@ class Api::V1::LinksController < ApplicationController
 
   def index
     if current_user
-      @links = current_user.links
+      @links = current_user.links.find_by(read_status: params[:status]) if params[:status]
+      @links = current_user.links if !params[:status]
+      @links = [].push(@links) if !@links.kind_of?(Link::ActiveRecord_Associations_CollectionProxy)
       respond_with @links
     else
       respond_to do |format|
