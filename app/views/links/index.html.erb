@@ -14,15 +14,7 @@
 <% end %>
 
 <% if current_user %>
-  <% @links.each do |link| %>
-    <div id="link-<%= link.id %>">
-      <br>
-      <br>
-      <%= link.title %>
-      <ul>
-        <li><%= link.url %></li>
-        <li>Read: <%= link.read_status %></li>
-      </ul>
-    </div>
-  <% end %>
+  <div id="links-list">
+
+  </div>
 <% end %>

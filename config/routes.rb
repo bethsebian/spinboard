@@ -10,4 +10,10 @@ Rails.application.routes.draw do
 
   resources :users
   resources :links, only: [:index, :create]
+
+  namespace :api do
+    namespace :v1 do
+      resources :links, only: [:index, :show, :update], :defaults => { :format => 'json' }
+    end
+  end
 end
