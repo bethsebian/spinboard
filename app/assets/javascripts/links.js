@@ -1,17 +1,9 @@
 $(document).ready(function() {
   listAllLinks();
   changeStatus();
-  addStatusFilterLink();
   filterByStatus();
   showAll();
 });
-
-function addStatusFilterLink() {
-  var target = $('#filter-by-status');
-  $(target).append('<button class="filter-by-status" id="true">Show Read Links</button>'
-                   + '<button class="filter-by-status" id="false">Show Unread Links</button>'
-                   + '<button class="show-all">Show All</button>')
-}
 
 function listAllLinks() {
   return $.getJSON('api/v1/links.json').then(function (links) {
@@ -63,7 +55,7 @@ function changeStatus() {
 }
 
 function filterByStatus() {
-  $("#filter-by-status").delegate('.filter-by-status', 'click', function() {
+  $(".filter-buttons").delegate('.filter-by-status', 'click', function() {
     filterLinks(this.id);
   });
 }
