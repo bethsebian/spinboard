@@ -70,6 +70,7 @@ function filterByStatus() {
 
 function showAll() {
   $(".filter-buttons").delegate('.show-all', 'click', function() {
+    $('.links-container').remove();
     listAllLinks();
   });
 }
