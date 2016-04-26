@@ -1,12 +1,10 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
-
   root 'home#index'
-
   get 'signup', to: 'users#new'
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
+  post 'recommend', to: 'recommends#create'
 
   resources :users
   resources :links, only: [:index, :create, :edit, :update]

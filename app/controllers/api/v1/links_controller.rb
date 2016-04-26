@@ -9,11 +9,8 @@ class Api::V1::LinksController < ApplicationController
   def index
     if current_user
       @links = current_user.links.where(read_status: params[:status]) if params[:status]
-      # binding.pry
       @links = current_user.links.sort { |a,b| a.title <=> b.title } if params[:sortType] === "alphabetical"
-      # binding.pry
       @links = current_user.links if !params[:status] && !params[:sortType]
-      # @links = [].push(@links) if !@links.kind_of?(Link::ActiveRecord_Associations_CollectionProxy) && !@links.kind_of?(Array)
       respond_with @links
     else
       respond_to do |format|
