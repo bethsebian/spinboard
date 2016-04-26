@@ -16,9 +16,13 @@
 <% if current_user %>
   <% @links.each do |link| %>
     <div id="link-<%= link.id %>">
-      <%= link.url %>
+      <br>
+      <br>
       <%= link.title %>
-      Read: <%= link.read_status %>
+      <ul>
+        <li><%= link.url %></li>
+        <li>Read: <%= link.read_status %></li>
+      </ul>
     </div>
   <% end %>
 <% end %>
