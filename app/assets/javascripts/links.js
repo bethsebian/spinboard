@@ -3,6 +3,7 @@ $(document).ready(function() {
   changeStatus();
   filterByStatus();
   showAll();
+  sortAlphabetically();
 });
 
 function listAllLinks() {
@@ -56,10 +57,16 @@ function changeStatus() {
 
 function filterByStatus() {
   $(".filter-buttons").delegate('.filter-by-status', 'click', function() {
-    filterLinks(this.id);
+    requestLinksByStatus(this.id);
   });
 }
 
+function sortAlphabetically() {
+  console.log("alpha");
+  $(".filter-buttons").delegate('.sort-alphabetically', 'click', function() {
+    requestLinksInAlphaBetOrder();
+  });
+}
 function showAll() {
   $(".filter-buttons").delegate('.show-all', 'click', function() {
     $('.links-container').remove();
@@ -67,7 +74,16 @@ function showAll() {
   });
 }
 
-function filterLinks(filterType) {
+function requestLinksInAlphaBetOrder() {
+  console.log("beta");
+  return $.getJSON("api/v1/links?sortType=alphabetical").then(function (links) {
+    console.log(links);
+    $('.links-container').remove();
+    collectAndFormatLinks(links);
+  });
+}
+
+function requestLinksByStatus(filterType) {
   return $.getJSON("api/v1/links?status=" + filterType).then(function (links) {
     $('.links-container').remove();
     collectAndFormatLinks(links);
