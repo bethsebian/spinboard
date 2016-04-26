@@ -4,6 +4,7 @@ $(document).ready(function() {
   filterByStatus();
   showAll();
   sortAlphabetically();
+  searchField();
 });
 
 function listAllLinks() {
@@ -90,7 +91,6 @@ function requestLinksByStatus(filterType) {
   });
 }
 
-
 function updateStatusInModel(linkId) {
   $.ajax({
     type: "put",
@@ -120,5 +120,15 @@ function getUpdatedLinkInfo(linkId) {
     var linkDiv = document.getElementById('link_' + link.id);
     linkDiv.remove();
     $('#links-list').append(renderLink(link));
+  });
+}
+
+function searchField() {
+  $('#search-field').on('keyup', function(){
+    var searchTerm = this.value.toLowerCase();
+    $('.link_info').each(function() {
+      var text = $(this).text().toLowerCase();
+      (text.indexOf(searchTerm) >= 0) ? $(this).show() : $(this).hide();
+    });
   });
 }
