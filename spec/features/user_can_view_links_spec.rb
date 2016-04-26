@@ -4,18 +4,21 @@ RSpec.feature 'View links', type: :feature do
   attr_reader :user_1, :user_2
 
   before(:each) do
-    @user_1 = User.create(email: "janedoe@example.com",
-                          password: "password")
-    @user_2 = User.create(email: "jose@example.com",
-                          password: "password")
+    @user_1 = User.create(name: "Jane Doe",
+                          email: "janedoe@example.com",
+                          password: "password",
+                          password_confirmation: "password")
+    @user_2 = User.create(name: "Jose Doe",
+                          email: "jose@example.com",
+                          password: "password",
+                          password_confirmation: "password")
   end
 
   scenario 'user can see links' do
-    link_1 = Link.create(url: "http://www.word.com",
+    link_1 = user_1.links.create(url: "http://www.word.com",
                          title: "Best Title",
-                         read_status: true,
-                         user_id: user_1.id)
-    link_2 = Link.create(url: "http://www.believeland.com",
+                         read_status: true)
+    link_2 = user_1.links.create(url: "http://www.believeland.com",
                          title: "Second Best Title",
                          user_id: user_1.id)
 
