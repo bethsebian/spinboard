@@ -5,6 +5,7 @@ $(document).ready(function() {
   showAll();
   sortAlphabetically();
   searchField();
+  recommendLink();
 });
 
 function listAllLinks() {
@@ -43,8 +44,9 @@ function renderLink(link) {
     + (link.read_status === true ? ('<button class="change-status" id=' + link.id + '>Mark as Unread</button>') : ('<button class="change-status" id=' + link.id + '>Mark as Read</button>'))
     + '<a href="/links/'
     + link.id
-    + '/edit">Edit</a>'
-    + '</div>'
+    + '/edit">Edit</a><button id="'
+    + link.id
+    + '" class="recommend">Recommend Link</button></div>'
   );
 }
 
@@ -63,7 +65,6 @@ function filterByStatus() {
 }
 
 function sortAlphabetically() {
-  console.log("alpha");
   $(".filter-buttons").delegate('.sort-alphabetically', 'click', function() {
     requestLinksInAlphaBetOrder();
   });
@@ -75,10 +76,21 @@ function showAll() {
   });
 }
 
+
+function recommendLink() {
+  $("#links-list").delegate('.recommend', 'click', function() {
+    var div = $(document.createElement('div'));
+    div.html('<form action="/recommend" method="post">Destination Email:<br>'
+              + '<input type="text" name="email">'
+              + '<input type="hidden" name="link_id" value="'
+              + this.id
+              + '"><br><input type="submit" value="Send"></form>');
+    (div).appendTo('#link_' + this.id);
+  });
+}
+
 function requestLinksInAlphaBetOrder() {
-  console.log("beta");
   return $.getJSON("api/v1/links?sortType=alphabetical").then(function (links) {
-    console.log(links);
     $('.links-container').remove();
     collectAndFormatLinks(links);
   });

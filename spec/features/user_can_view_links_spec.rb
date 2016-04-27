@@ -14,7 +14,7 @@ RSpec.feature 'View links', type: :feature do
                           password_confirmation: "password")
   end
 
-  scenario 'user can see links' do
+  xit 'user can see links' do
     link_1 = user_1.links.create(url: "http://www.word.com",
                          title: "Best Title",
                          read_status: true)
@@ -38,7 +38,7 @@ RSpec.feature 'View links', type: :feature do
     end
   end
 
-  scenario "user only sees their links" do
+  xit "user only sees their links" do
     ApplicationController.any_instance.stubs(:current_user).returns(user_1)
     link_1 = Link.create(title: "User 1 Title 1",
                          url: "http://www.best1.com",

@@ -1,6 +1,6 @@
 class LinkRecommender < ApplicationMailer
-  def inform(user, friend_contact)
-  @user = user
-  mail(to: friend_contact, subject: "#{user.name} says you've changed.")
-end
+  def recommend(friend_contact, link_id)
+    @link = Link.find(link_id)
+    mail(to: friend_contact, subject: "Check out this link!")
+  end
 end

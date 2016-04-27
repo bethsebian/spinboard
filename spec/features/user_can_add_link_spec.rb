@@ -10,7 +10,7 @@ RSpec.feature 'Add links', type: :feature do
                           password_confirmation: "password")
   end
 
-  scenario 'user can add link' do
+  xit 'user can add link' do
     ApplicationController.any_instance.stubs(:current_user).returns(user_1)
 
     title = "Best F-ing Title Ever"
